@@ -1,55 +1,108 @@
 <template>
   <b-container>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Nombres :"
-        label-for="input-1"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="text"
-          required
-          placeholder="Enter Nombres"
-        ></b-form-input>
-      </b-form-group>
+    <b-row align-h="center">
+      <h3 class="color" >Certificado <b-badge variant="primary">Nuevo</b-badge></h3>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-form-group
+            label="Nombre del curso"
+          >
+            <b-form-input
+              v-model="form.nameCurso"
+              type="text"
+              autofocus
+              required
+              placeholder="Ingrese Nombre del curso"
+            ></b-form-input>
 
-      <b-form-group 
-        id="input-group-2" 
-        label="Curso" 
-        label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.name"
-          required
-          placeholder="Enter Curso"
-        ></b-form-input>
-      </b-form-group>
+          </b-form-group>
 
-      <b-form-group 
-        id="input-group-3" 
-        label="Precio" 
-        label-for="input-3">
-        <b-form-select
-          id="input-3"
-          v-model="form.food"
-          :options="foods"
-          required
-        ></b-form-select>
-      </b-form-group>
+          <b-form-group 
+            label="Apellidos" 
+          >
+            <b-form-input
+              v-model="form.apellidos"
+              required
+              placeholder="Ingrese Apellidos"
+            ></b-form-input>
+          </b-form-group>
 
-      <b-form-group id="input-group-4">
-        <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group>
+          <b-form-group 
+            label="Nombres" 
+          >
+            <b-form-input
+              v-model="form.nombres"
+              required
+              placeholder="Ingrese Nombres"
+            ></b-form-input>
+          </b-form-group>
+          <b-row>
+            <b-col>
+              <b-form-group 
+                label="Codigo Certificado" 
+              >
+                <b-form-input
+                  v-model="form.codigo"
+                  required
+                  placeholder="Ingrese Codigo"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group 
+                label="DNI" 
+              >
+              <b-form-input
+                v-model="form.dni"
+                placeholder="Ingrese Dni"
+              ></b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group 
+                label="Costo" 
+              >
+              <b-input-group  prepend="S/." append=".00">
+                <b-form-input type="number" placeholder="00" v-model="form.costo" ></b-form-input>
+              </b-input-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-form-group 
+                  label="Cargo" 
+                >
+                <b-form-select
+                  id="input-3"
+                  v-model="form.cargo"
+                  :options="cargos"
+                  required
+                ></b-form-select>
+              </b-form-group>
+            </b-col>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
+            <b-col>
+              <b-form-group 
+              label="Grado" 
+              >
+              <b-form-select
+                id="input-3"
+                v-model="form.grado"
+                :options="grados"
+                required
+              ></b-form-select>
+              </b-form-group>
+            </b-col>
+          </b-row>   
+          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="reset" variant="danger">Reset</b-button>
+      </b-form>
+      </b-col>
+    </b-row>
+   
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card>
@@ -57,16 +110,24 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+import {db} from '@/main';
+import * as faker from 'faker';
   export default {
     data() {
       return {
         form: {
-          email: '',
-          name: '',
-          food: null,
-          checked: []
+          nameCurso: '',
+          apellidos: '',
+          nombres: '',
+          codigo:'',
+          dni:'',
+          costo:'',
+          cargo:null,
+          grado:null,
         },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+        grados: [{ text: 'Seleccione uno', value: null }, 'Estudiante', 'Profesional'],
+        cargos: [{ text: 'Seleccione uno', value: null }, 'Participante', 'Organizador', 'Ponente', 'Asistente'],
         show: true
       }
     },
@@ -74,14 +135,40 @@
       onSubmit(evt) {
         evt.preventDefault()
         alert(JSON.stringify(this.form))
+        const id = faker.random.alphaNumeric(16);
+        console.log('tag', id )
+        db.collection("certificados").doc(id).set({
+          nameCurso: this.form.nameCurso, 
+          apellidos: this.form.apellidos,
+          nombres: this.form.nombres,
+          codigo:this.form.codigo,
+          dni:this.form.dni,
+          costo:this.form.costo,
+          cargo:this.form.cargo,
+          grado:this.form.grado,
+          uid:id
+      })
+      .then(()=> {
+          this.onReset()
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
+
+
       },
-      onReset(evt) {
-        evt.preventDefault()
+      onReset() {
+        
         // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
+        this.form.nameCurso = ''
+        this.form.apellidos = ''
+        this.form.nombres = ''
+        this.form.codigo = ''
+        this.form.dni = ''
+        this.form.costo = ''
+        this.form.cargo = null
+        this.form.grado = null
+        
         // Trick to reset/clear native browser form validation state
         this.show = false
         this.$nextTick(() => {
@@ -92,5 +179,7 @@
   }
 </script>
 <style scope>
-    
+    .color{
+      color: green;
+    }
 </style>

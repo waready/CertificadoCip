@@ -14,20 +14,24 @@
 
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
-
             <b-nav-item-dropdown text="Lang" right>
               <b-dropdown-item href="#">EN</b-dropdown-item>
               <b-dropdown-item href="#">ES</b-dropdown-item>
               <b-dropdown-item href="#">RU</b-dropdown-item>
               <b-dropdown-item href="#">FA</b-dropdown-item>
             </b-nav-item-dropdown>
-
-            <b-nav-item-dropdown right>
+            <b-button variant="success" v-if="user">Registar Usuarios</b-button>
+          
+           <div right v-if="user">
+             <b-nav-item-dropdown >
               <!-- Using 'button-content' slot -->
-              <template slot="button-content"><em>Ingresar</em></template>
-              <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              <template slot="button-content"><em> {{user.email}}</em></template>
+              <b-dropdown-item >Profile</b-dropdown-item>
+              <b-dropdown-item @click.prevent="logout">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
+           </div>
+            
+            <b-button pill v-else>Ingresar</b-button>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -36,15 +40,40 @@
 
   
     <div id="app">
-      <img src="./assets/logocip.png" width="300" >
+      <img src="./assets/logocip.png" width="150" >
     </div>
     <router-view/>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase';
 export default {
-  name: 'App'
+  name: 'App',
+  data(){
+    return{
+      user: null
+    }
+  },
+  created(){
+    firebase.auth().onAuthStateChanged(user =>{
+      if(user){
+        this.user = user
+      }
+      else{
+        this.user = null
+      }
+    })
+  },
+  methods:{
+    logout(){
+      firebase.auth().signOut().then(
+        () =>{
+        this.$router.push({name:'login'})  
+        }
+      )
+    }
+  }
 }
 </script>
 

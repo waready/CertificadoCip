@@ -10,12 +10,27 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 
+import firebase from 'firebase';
+import 'firebase/firestore';
+import firebaseConfig from '@/config/firebase';
+firebase.initializeApp(firebaseConfig);
+
+const firestore = firebase.firestore();
+
+export const db = firestore;
+
+
+
+
 Vue.config.productionTip = false
+
+let app = null
+firebase.auth().onAuthStateChanged(()=>{})
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
 })

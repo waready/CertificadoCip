@@ -46,18 +46,9 @@
       </template>
     </em>
   </b-card>
-  <div v-for='item in (buscarCodigo)' :key="item.dni"> 
-  <b-card :title="item.curso" :sub-title="item.nombre">
-    <b-card-text>
-      {{item.cargo}} <em> {{item.dni}}</em> {{item.codigo }}
-    </b-card-text>
-
-    <b-card-text>{{item.grado}}</b-card-text>
-
-    <a href="#" class="card-link">Descargar</a>
-    <b-link href="#" class="card-link">Ver</b-link>
-  </b-card>
-  </div>
+    <tipo-busqueda :data="buscarDni"    v-if="buscador.dni"></tipo-busqueda>
+    <tipo-busqueda :data="buscarNombre" v-if="buscador.nombres"></tipo-busqueda>
+    <tipo-busqueda :data="buscarCodigo" v-if="buscador.codigo"></tipo-busqueda>
     </b-container>
      <pre>
       {{$data}}
@@ -66,8 +57,12 @@
 </template>
 
 <script>
+import tipoBusqueda from '@/components/Busqueda'
 export default {
   name: 'HelloWorld',
+  components:{
+    tipoBusqueda,
+  },
   data () {
     return {
       search:'',
