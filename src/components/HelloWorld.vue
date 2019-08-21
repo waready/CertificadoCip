@@ -50,53 +50,47 @@
     <tipo-busqueda :data="buscarNombre" v-if="buscador.nombres"></tipo-busqueda>
     <tipo-busqueda :data="buscarCodigo" v-if="buscador.codigo"></tipo-busqueda>
     </b-container>
-     <pre>
-      {{$data}}
-    </pre>
   </div> 
 </template>
 
 <script>
+import {db} from '@/main';
 import tipoBusqueda from '@/components/Busqueda'
 export default {
   name: 'HelloWorld',
   components:{
     tipoBusqueda,
   },
+  mounted(){
+    db.collection('certificados').onSnapshot(snapshot => {
+    this.certificados = [];
+    snapshot.forEach(user => {
+      const userData = user.data();
+      this.certificados.push({
+        Curso_Nombre: userData.nameCurso, 
+        apellidos: userData.apellidos,
+        nombres: userData.nombres,
+        codigo:userData.codigo,
+        dni:userData.dni,
+        costo:userData.costo,
+        cargo:userData.cargo,
+        grado:userData.grado,
+        uid:userData.uid
+      });
+    });
+    }, (error) => {
+    console.log('listener users admin off...');
+    })
+    },
   data () {
     return {
       search:'',
+      certificados:[],
       buscador:{
         codigo:true,
         dni:false,
         nombres:false
       },
-      datos:[
-        {
-          nombre:'Juan Jose Perez',
-          dni:'11112222',
-          codigo:'123123',
-          curso:'Agilidad Empresarial',
-          grado:'Estudiante',
-          cargo:'Participante'
-        },
-        {
-          nombre:'Juan Jose Rodriguez',
-          dni:'11112223',
-          codigo:'123124',
-          curso:'Agilidad Empresarial',
-          grado:'Profesional',
-          cargo:'Organizador'
-        },
-        {
-          nombre:'Juan Jose Aguilar',
-          dni:'11112224',
-          codigo:'123125',
-          curso:'Agilidad Empresarial',
-          grado:'Profesional',
-          cargo:'Ponente'
-        },
-      ]
     }
   },
   methods:{
@@ -118,13 +112,13 @@ export default {
   },
   computed: {
     buscarDni(){
-      return this.datos.filter(user => user.dni.includes(this.search))
+      return this.certificados.filter(user => user.dni.includes(this.search))
     },
     buscarNombre(){
-      return this.datos.filter(user => user.nombre.includes(this.search))
+      return this.certificados.filter(user => user.nombres.includes(this.search))
     },
     buscarCodigo(){
-      return this.datos.filter(user => user.codigo.includes(this.search))
+      return this.certificados.filter(user => user.codigo.includes(this.search))
     }
   },
 }

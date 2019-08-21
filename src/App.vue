@@ -2,7 +2,7 @@
   <div> 
     <div>
       <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand href="#">Cip-Certificado</b-navbar-brand>
+        <b-navbar-brand to="/">Cip-Certificado</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -20,7 +20,7 @@
               <b-dropdown-item href="#">RU</b-dropdown-item>
               <b-dropdown-item href="#">FA</b-dropdown-item>
             </b-nav-item-dropdown>
-            <b-button variant="success" v-if="user">Registar Usuarios</b-button>
+            <b-button variant="success" v-if="user" to="/registro">Registar Usuarios</b-button>
           
            <div right v-if="user">
              <b-nav-item-dropdown >
@@ -31,7 +31,7 @@
             </b-nav-item-dropdown>
            </div>
             
-            <b-button pill v-else>Ingresar</b-button>
+            <b-button pill v-else to="login">Ingresar</b-button>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -43,6 +43,7 @@
       <img src="./assets/logocip.png" width="150" >
     </div>
     <router-view/>
+
   </div>
 </template>
 
@@ -85,5 +86,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 20px;
+}
+.final{
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
 }
 </style>

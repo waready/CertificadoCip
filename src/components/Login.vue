@@ -71,7 +71,7 @@ export default {
        if(this.form.email && this.form.password){
          return firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(()=>{
-          this.$router.push({name:'formulario'})
+          this.$router.push({name:'muestra'})
         }).catch(err=>{
           this.error = err.message
         })

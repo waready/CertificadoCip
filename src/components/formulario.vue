@@ -1,11 +1,11 @@
 <template>
   <b-container>
     <b-row align-h="center">
-      <h3 class="color" >Certificado <b-badge variant="primary">Nuevo</b-badge></h3>
+      <h3 >Certificado <b-badge variant="primary">Nuevo</b-badge></h3>
     </b-row>
     <b-row>
       <b-col>
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
           <b-form-group
             label="Nombre del curso"
           >

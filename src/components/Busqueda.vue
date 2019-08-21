@@ -1,9 +1,9 @@
 <template>
     <div>
         <div v-for='item in (data)' :key="item.dni"> 
-            <b-card :title="item.curso" :sub-title="item.nombre">
+            <b-card :title="item.Curso_Nombre" :sub-title="item.nombres + item.apellidos">
             <b-card-text>
-                {{item.cargo}} <em> {{item.dni}}</em> {{item.codigo }}
+                {{item.cargo}} <em> DNI: {{item.dni}}</em> Codigo: {{item.codigo }}
             </b-card-text>
 
             <b-card-text>{{item.grado}}</b-card-text>

@@ -1,6 +1,9 @@
 <template>
   <b-container>
     <div>
+  <div class="mb-3">
+    <b-button block squared variant="success" to="/from">Nuevo Certificado</b-button>
+  </div>
   <div>
     <b-table responsive
       id="table-transition-example"
@@ -12,7 +15,7 @@
       :tbody-transition-props="transProps"  
     >
     <template slot="edicion" slot-scope="row">
-        <b-button pill variant="primary" size="sm" v-b-modal.modal-multi-1 @click="editar(row.item)">Editar</b-button>
+        <b-button pill variant="warning" size="sm" v-b-modal.modal-multi-1 @click="editar(row.item)">Editar</b-button>
         <b-button pill variant="danger" size="sm"  @click="eliminar(row.item.uid)">Eliminar</b-button>
       </template>
     </b-table>
@@ -128,9 +131,7 @@
   <p class="my-1">Third Modal</p>
   </b-modal>
   </div>
-  <pre>
-    {{$data}}
-  </pre>
+
   </b-container>
 
 </template>
@@ -208,14 +209,14 @@ export default {
       });
       },
       eliminar(id){
-        var r = confirm("Press a button!");
+        var r = confirm("Esta seguro que decea eliminar este certidicado");
         if (r == true) {
-         alert( "You pressed OK!")
+         //alert( ")
           db.collection('certificados').doc(id).delete().then(()=>{
             alert('se elimino')
           })
         } else {
-         alert( "You pressed Cance")
+         //alert( "You pressed Cance")
         }
       },
       editar(id){

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Formulario from '@/components/formulario'
 import login from '@/components/Login'
+import registro from '@/components/registro'
 import Muestra from '@/components/muestra'
 
 
@@ -17,6 +18,11 @@ const router = new Router({
       component: HelloWorld
     },
     {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    {
       path: '/from',
       name: 'formulario',
       component: Formulario,
@@ -25,14 +31,20 @@ const router = new Router({
       }
     },
     {
-      path: '/login',
-      name: 'login',
-      component: login
-    },
-    {
       path: '/muestra',
       name: 'muestra',
-      component: Muestra
+      component: Muestra,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/registro',
+      name: 'registro',
+      component: registro,
+      meta:{
+        requiresAuth: true
+      }
     },
   ]
 });
