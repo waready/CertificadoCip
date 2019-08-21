@@ -40,7 +40,7 @@
 
   
     <div id="app">
-      <img src="./assets/logocip.png" width="150" >
+      <img src="https://raw.githubusercontent.com/waready/CertificadoCip/master/dist/static/img/logocip.be18db0.png" width="150" >
     </div>
     <router-view/>
 
